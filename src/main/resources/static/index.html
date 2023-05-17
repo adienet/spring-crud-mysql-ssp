@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.min.css"/>
@@ -8,6 +8,86 @@
 </head>
 <body>
 
+<!--modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- form start -->
+            <form class="form-horizontal" action="" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Edit</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">PID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="pid" name="pid" placeholder="ID Device" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Gender</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="gender" name="gender" placeholder="Male/Female">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date of birth</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="YYYY-mm-dd">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Suburb</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="suburb" name="suburb" placeholder="suburb">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">State</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="state" name="state" placeholder="state">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Postcode</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="postcode" name="postcode" placeholder="postcode">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="action" id="action" value="add">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btnSave">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -15,6 +95,18 @@
         </div>
     </div>
 </nav>
+
+<div class="row" ng-controller="PatientController">
+    <div class="col-md-2">
+        &nbsp;
+    </div>
+    <div class="col-md-2">
+        <button id="btnNew" ng-click="openModal()" class="btn btn-primary">New Patient</button>
+    </div>
+</div>
+
+<h1 ng-controller="PatientController">{{message}}</h1>
+<div>
 <table id="tablepatient" class="table" style="width:100%;margin:10px">
     <thead>
     <tr>
@@ -27,15 +119,33 @@
         <th>Suburb</th>
         <th>State</th>
         <th>PostCode</th>
+        <th>Action</th>
     </tr>
     </thead>
 </table>
+</div>
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript" src="js/jquery.spring-friendly.js"></script>
+
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+
 <script>
+
+
+        function editPatient(pid){
+             alert('edit');
+        }
+
+        function deletePatient(pid){
+             alert('edit');
+        }
+
+
         $('table#tablepatient').DataTable({
             ajax: '/ssp/api',
             serverSide: true,
@@ -66,6 +176,14 @@
                 },
                 {
                     data: 'postCode'
+                },
+                {
+                    data : 'pid', render: function ( data, type, row )
+                    {
+                        var btnEdit = '<a href="#" onclick="return editPatient('+data.pid+');" class="btn btn-success">Edit</a>';
+                        var btnDelete = '<a href="#" onclick="return deletePatient('+data.pid+');" class="btn btn-danger">Delete</a>';
+                        return btnEdit+' '+btnDelete;
+                    }
                 }
             ]
         });
