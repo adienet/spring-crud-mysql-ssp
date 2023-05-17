@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.min.css"/>
+
+    <title>DataTables</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Patient</a>
+        </div>
+    </div>
+</nav>
+<table id="tablepatient" class="table" style="width:100%;margin:10px">
+    <thead>
+    <tr>
+        <th>PID</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>Address</th>
+        <th>DateOfBirth</th>
+        <th>Gender</th>
+        <th>Suburb</th>
+        <th>State</th>
+        <th>PostCode</th>
+    </tr>
+    </thead>
+</table>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.spring-friendly.js"></script>
+<script>
+        $('table#tablepatient').DataTable({
+            ajax: '/ssp/api',
+            serverSide: true,
+            columns: [
+                {
+                    data: 'pid'
+                },
+                {
+                    data: 'firstName'
+                },
+                {
+                    data: 'lastName'
+                },
+                {
+                    data: 'address'
+                },
+                {
+                    data: 'dateOfBirth'
+                },
+                {
+                    data: 'gender'
+                },
+                {
+                    data: 'suburb'
+                },
+                {
+                    data: 'state'
+                },
+                {
+                    data: 'postCode'
+                }
+            ]
+        });
+    </script>
+
+</body>
+</html>
