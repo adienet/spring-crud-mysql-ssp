@@ -1,14 +1,11 @@
 package adiekurniawan.demo.crud.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Generated;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,16 +14,20 @@ import java.time.LocalDateTime;
 public class Patient {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String pid;
 
     @Column(name = "first_name")
+    @JsonAlias("first_name")
     private String firstName;
 
     @Column(name = "last_name")
+    @JsonAlias("last_name")
     private String lastName;
 
     @Column(name = "date_of_birth")
-    private LocalDateTime dateOfBirth;
+    @JsonAlias("date_of_birth")
+    private LocalDate dateOfBirth;
 
     @Column(name = "gender")
     private String gender;
@@ -41,5 +42,6 @@ public class Patient {
     private String state;
 
     @Column(name = "postcode")
+    @JsonAlias("postcode")
     private String postCode;
 }

@@ -13,7 +13,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- form start -->
-            <form class="form-horizontal" action="" method="post">
+            <form ng-controller="PatientController" class="form-horizontal" id="formPatient" action="" method="post">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel">Edit</h4>
@@ -23,55 +23,55 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">PID</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="pid" name="pid" placeholder="ID Device" readonly>
+                                <input type="text" class="form-control" id="pid" name="pid" placeholder="ID Device" readonly required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">First Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Last Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Gender</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="gender" name="gender" placeholder="Male/Female">
+                                <input type="text" class="form-control" id="gender" name="gender" placeholder="Male/Female" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Date of birth</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="YYYY-mm-dd">
+                                <input type="text" class="form-control" id="date_of_birth" name="date_of_birth" placeholder="YYYY-mm-dd" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Address</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="address" name="address" placeholder="address">
+                                <input type="text" class="form-control" id="address" name="address" placeholder="address" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Suburb</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="suburb" name="suburb" placeholder="suburb">
+                                <input type="text" class="form-control" id="suburb" name="suburb" placeholder="suburb" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">State</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="state" name="state" placeholder="state">
+                                <input type="text" class="form-control" id="state" name="state" placeholder="state" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Postcode</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="postcode" name="postcode" placeholder="postcode">
+                                <input type="text" class="form-control" id="postcode" name="postcode" placeholder="postcode" required>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="modal-footer">
                     <input type="hidden" name="action" id="action" value="add">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btnSave">Save changes</button>
+                    <button type="button" ng-click="btnSave()" id="btnSave" class="btn btn-primary btnSave">Save changes</button>
                 </div>
             </form>
         </div>
@@ -105,9 +105,9 @@
     </div>
 </div>
 
-<h1 ng-controller="PatientController">{{message}}</h1>
+<h4 ng-controller="PatientController">{{message}}</h4>
 <div>
-<table id="tablepatient" class="table" style="width:100%;margin:10px">
+<table ng-controller="PatientController" id="tablepatient" class="table" style="width:100%;margin:10px">
     <thead>
     <tr>
         <th>PID</th>
@@ -136,9 +136,30 @@
 
 <script>
 
-
         function editPatient(pid){
-
+            $("#action").val('edit');
+            $.ajax({
+                    url : '/patient/'+pid,
+                    type : 'GET',
+                    dataType:'json',
+                    success : function(data) {
+                        $('#myModal').modal('show');
+                        console.log(data);
+                        $("#pid").val(data.pid);
+                        $("#first_name").val(data.firstName);
+                        $("#last_name").val(data.lastName);
+                        $("#address").val(data.address);
+                        $("#date_of_birth").val(data.dateOfBirth);
+                        $("#gender").val(data.gender);
+                        $("#suburb").val(data.suburb);
+                        $("#state").val(data.state);
+                        $("#postcode").val(data.postCode);
+                    },
+                    error : function(request,error)
+                    {
+                        console.log(data);
+                    }
+                });
         }
 
         function deletePatient(pid){
