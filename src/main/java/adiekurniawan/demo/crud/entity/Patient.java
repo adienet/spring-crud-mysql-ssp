@@ -2,15 +2,16 @@ package adiekurniawan.demo.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Generated;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="patient")
 @Data
+@NoArgsConstructor
 public class Patient {
 
     @Id
