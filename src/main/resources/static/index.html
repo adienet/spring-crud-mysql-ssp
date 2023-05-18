@@ -138,11 +138,24 @@
 
 
         function editPatient(pid){
-             alert('edit');
+
         }
 
         function deletePatient(pid){
-             alert('edit');
+             if (confirm('Do you want to edit pid '+pid+' ?')) {
+                $.ajax({
+                    url : '/patient/'+pid,
+                    type : 'DELETE',
+                    dataType:'json',
+                    success : function(data) {
+                        alert('Data: '+data);
+                    },
+                    error : function(request,error)
+                    {
+                        alert("Request: "+JSON.stringify(request));
+                    }
+                });
+             }
         }
 
 
@@ -180,8 +193,8 @@
                 {
                     data : 'pid', render: function ( data, type, row )
                     {
-                        var btnEdit = '<a href="#" onclick="return editPatient('+data.pid+');" class="btn btn-success">Edit</a>';
-                        var btnDelete = '<a href="#" onclick="return deletePatient('+data.pid+');" class="btn btn-danger">Delete</a>';
+                        var btnEdit = '<a href="#" onclick="return editPatient('+row.pid+');" class="btn btn-success">Edit</a>';
+                        var btnDelete = '<a href="#" onclick="return deletePatient('+row.pid+');" class="btn btn-danger">Delete</a>';
                         return btnEdit+' '+btnDelete;
                     }
                 }

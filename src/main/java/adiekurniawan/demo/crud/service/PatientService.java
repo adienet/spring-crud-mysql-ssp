@@ -19,7 +19,7 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Optional<Patient> getPatientById(@PathVariable Long id) {
+    public Optional<Patient> getPatientById(@PathVariable String id) {
         return patientRepository.findById(id);
     }
 
@@ -27,7 +27,7 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
-    public Patient updatePatient(@PathVariable Long id, @RequestBody Patient patient) {
+    public Patient updatePatient(@PathVariable String id, @RequestBody Patient patient) {
         Optional<Patient> existingPatient = patientRepository.findById(id);
 
         if (existingPatient.isPresent()) {
@@ -46,7 +46,7 @@ public class PatientService {
         }
     }
 
-    public void deletePatient(@PathVariable Long id) {
+    public void deletePatient(@PathVariable String id) {
         patientRepository.deleteById(id);
     }
 }
