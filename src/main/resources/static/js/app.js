@@ -24,7 +24,6 @@ angular.module("app", []).controller("PatientController", function($scope) {
 
     $scope.btnSave = function() {
         console.log('save');
-        $('#myModal').modal('hide');
         var id = $('#pid').val();
         var formdata = JSON.stringify(getFormData($('#formPatient')));
         console.log(formdata);
