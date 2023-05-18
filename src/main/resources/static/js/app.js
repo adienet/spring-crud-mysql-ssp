@@ -15,6 +15,7 @@ angular.module("app", []).controller("PatientController", function($scope) {
     $scope.openModal = function() {
         $("#action").val('add');
         $('#myModal').modal('show');
+        $('#formPatient').find("input[type=text]").val("");
     };
 
     $scope.closeModal = function() {
@@ -35,28 +36,32 @@ angular.module("app", []).controller("PatientController", function($scope) {
                 dataType:'json',
                 data: formdata,
                 success : function(data) {
-                    $('#myModal').modal('show');
-                    console.log(data);
+                    $('#myModal').modal('hide');
+                    $('#tablepatient').DataTable().ajax.reload();
                 },
                 error : function(request,error)
                 {
-                    console.log(data);
+                    console.log(error);
                 }
             });
         }
         if ($('#action').val()=='edit'){
+            var urledit = '/patient/'+id;
+            console.log('urledit'+urledit);
             $.ajax({
-                url : '/patient/'+pid,
+                url : urledit,
                 type : 'PUT',
+                contentType: "application/json",
                 dataType:'json',
                 data: formdata,
                 success : function(data) {
-                    $('#myModal').modal('show');
-                    console.log(data);
+                    $('#myModal').modal('hide');
+                    $('#tablepatient').DataTable().ajax.reload();
                 },
                 error : function(request,error)
                 {
-                    console.log(data);
+                    console.log(error);
+                    $('#tablepatient').DataTable().ajax.reload();
                 }
             });
         }
